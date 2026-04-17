@@ -21,7 +21,43 @@ class Income extends Entry {
 }
 
 // Expense
-class Expense {}
+class Expense extends Entry{
+    constructor(date, amount, description, paid){
+       super(date, amount, description)
+       this.paid = Boolean(paid)
+       this.type = "expense" 
+    }
+
+     getFormattedAmount() {
+        return `-${this.amount} €`
+    }
+
+}
 
 // Budget
-class Budget {}
+class Budget {
+    constructor() {        
+        this.entries = [];
+    }
+
+    addEntry(entry) {
+        this.entries.push(entry);
+    }
+
+    getCurrentBalance() {
+        if (this.entries.length === 0){
+            return 0
+        }
+
+        return this.entries.reduce((acc, entry) => {
+            if (entry.type === "income") {
+                acc = acc + entry.amount
+            } else if (entry.type === "expense") {
+                acc = acc - entry.amount
+            }
+            return acc
+        }, 0);
+    }
+
+    
+}
